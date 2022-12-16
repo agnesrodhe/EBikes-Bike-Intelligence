@@ -4,8 +4,13 @@
         "batterylevel",
         "bike",
         "bikes",
+        "coordinate",
         "depending",
         "goal",
+        "LATMAX",
+        "LATMIN",
+        "LONGMAX",
+        "LONGMIN",
         "returns",
         "that"
     ]
