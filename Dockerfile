@@ -29,9 +29,9 @@ RUN apt install -y python3-pip
 
 WORKDIR /src
 
-COPY src/requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+COPY src/testing.py /src
+COPY src/requirements.txt /src
 
-COPY src/testing.py ./
+RUN pip3 install -r requirements.txt
 
 CMD [ "python3", "testing.py"]
