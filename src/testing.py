@@ -9,7 +9,7 @@ import json
 import asyncio
 
 
-API = "http://host.docker.internal:3002/v1/bikes"
+API = "http://server:3002/v1/bikes"
 HEADERS = {'Content-Type': 'application/json'}
 CITY = "637e2a5a22f175ffd136d0d7"
 CITY_LONGMIN = 15.36
