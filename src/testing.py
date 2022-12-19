@@ -6,10 +6,8 @@ import requests
 import time
 import random
 import json
+import asyncio
 
-
-connection_string = """mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASS}@ebikes.kcv8awt.mongodb.net/ebikes?retryWrites=true&w=majority
-"""
 
 API = "http://host.docker.internal:3002/v1/bikes"
 HEADERS = {'Content-Type': 'application/json'}
@@ -57,24 +55,27 @@ GOAL_LATMAX = 60.50
 
 def main():
     """Function to start the simulation"""
+    time.sleep(5)
     counter = 0
-    while True:
+    while counter < 2:
         active_bikes = get_all_active_bikes()
+        # active_bikes = get_all_active_bikes()
         for index, bike in enumerate(active_bikes):
-            if bike['status'] == "working":
-                check_goal_and_update(bike)
-                # update_speed(bike)
-                # lower_battery(bike)
-                # if bike.get("batterylevel") < 10:
-                #     set_bike_to_not_working(bike)
+            print(bike["_id"])
+        #     if bike['status'] == "working":
+        #         check_goal_and_update(bike)
+        #         # update_speed(bike)
+        #         # lower_battery(bike)
+        #         # if bike.get("batterylevel") < 10:
+        #         #     set_bike_to_not_working(bike)
         counter += 1
-        if counter > 1:
-            break
+        # if counter > 1:
+        #     break
         time.sleep(2)
 
 def get_all_active_bikes():
     """Function returns all active bikes in a city"""
-    response = requests.get("{0}/city/{0}/active".format(API, CITY))
+    response = requests.get("{0}/city/{1}/active".format(API, CITY))
     if response.status_code == 200:
         print_response = response.json()
         return print_response
