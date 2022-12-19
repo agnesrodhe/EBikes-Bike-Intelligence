@@ -25,13 +25,13 @@
 FROM debian:stretch-slim
 
 RUN apt update
-RUN apt install -y python3-pip python3-dev build-essential
+RUN apt install -y python3-pip
 
 WORKDIR /src
 
 COPY src/requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-COPY src/bike_simulation.py ./
+COPY src/testing.py ./
 
-CMD [ "python3", "bike_simulation.py"]
+CMD [ "python3", "testing.py"]
