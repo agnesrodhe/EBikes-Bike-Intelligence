@@ -55,7 +55,6 @@ GOAL_LATMAX = 60.50
 
 def main():
     """Function to start the simulation"""
-    time.sleep(5)
     counter = 0
     while counter < 2:
         active_bikes = get_all_active_bikes()

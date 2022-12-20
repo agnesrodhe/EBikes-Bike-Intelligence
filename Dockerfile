@@ -26,12 +26,13 @@ FROM debian:stretch-slim
 
 RUN apt update
 RUN apt install -y python3-pip
+ENV PYTHONIOENCODING UTF-8
 
 WORKDIR /src
 
-COPY src/testing.py /src
+COPY src/bike_simulation.py /src
 COPY src/requirements.txt /src
 
 RUN pip3 install -r requirements.txt
 
-CMD [ "python3", "testing.py"]
+# CMD [ "python3", "bike_simulation.py"]

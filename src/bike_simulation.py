@@ -8,10 +8,8 @@ import random
 import json
 
 
-connection_string = """mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASS}@ebikes.kcv8awt.mongodb.net/ebikes?retryWrites=true&w=majority
-"""
 
-API = "http://host.docker.internal:3002/v1/bikes"
+API = "http://server:3002/v1/bikes"
 HEADERS = {'Content-Type': 'application/json'}
 CITY = "637e2a5a22f175ffd136d0d7"
 CITY_LONGMIN = 15.36
@@ -74,7 +72,7 @@ def main():
 
 def get_all_active_bikes():
     """Function returns all active bikes in a city"""
-    response = requests.get("{0}/city/{0}/active".format(API, CITY))
+    response = requests.get("{0}/city/{1}/active".format(API, CITY))
     if response.status_code == 200:
         print_response = response.json()
         return print_response
