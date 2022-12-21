@@ -16,10 +16,10 @@ CITY_LONGMIN = 15.36
 CITY_LONGMAX = 15.43
 CITY_LATMIN = 60.46
 CITY_LATMAX = 60.51
-GOAL_LONGMIN = 15.37
-GOAL_LONGMAX = 15.42
-GOAL_LATMIN = 60.47
-GOAL_LATMAX = 60.50
+# GOAL_LONGMIN = 15.37
+# GOAL_LONGMAX = 15.42
+# GOAL_LATMIN = 60.47
+# GOAL_LATMAX = 60.50
 # VERSION 1
 # Hämta aktiva cyklar
 # loopa igenom alla aktiva cyklar
@@ -61,12 +61,14 @@ def main():
         for index, bike in enumerate(active_bikes):
             if bike['status'] == "working":
                 check_goal_and_update(bike)
-                # update_speed(bike)
-                # lower_battery(bike)
-                # if bike.get("batterylevel") < 10:
-                #     set_bike_to_not_working(bike)
+                update_speed(bike)
+                if counter % 5 == 0:
+                    print("battery lower")
+                    # lower_battery(bike)
+                if bike.get("batterylevel") < 10:
+                    set_bike_to_not_working(bike)
         counter += 1
-        if counter > 1:
+        if counter > 5:
             break
         time.sleep(2)
 
@@ -109,6 +111,11 @@ def check_goal_and_update(bike):
 
 def update_speed(bike):
     """Function to update speed on bike"""
+    speed = 0
+    if bike.get("speed") == 0 or bike.get("speed") == None:
+        speed = 20
+    data = json.dumps({ "speed": speed })
+    requests.put("{0}/{1}".format(API, bike['_id']), data=data, headers=HEADERS)
 
 def update_position(bike, movement_size):
     """Function to update position on bike"""
@@ -156,6 +163,10 @@ def update_position(bike, movement_size):
 
 def lower_battery(bike):
     """Function to lower the battery on an active bike"""
+    newBatteryLevel = bike["batterylevel"] - 1
+    print(newBatteryLevel)
+    data = json.dumps({ "batterylevel": newBatteryLevel })
+    requests.put("{0}/{1}".format(API, bike['_id']), data=data, headers=HEADERS)
 
 def set_bike_to_not_working(bike):
     """Function to update bike so that it is not working"""
