@@ -58,19 +58,28 @@ def main():
     counter = 0
     while True:
         active_bikes = get_all_active_bikes()
+        bike_prio = []
         for index, bike in enumerate(active_bikes):
-            if bike['status'] == "working":
+            if bike['status'] == "inUse":
+                bike_prio.append(bike)
                 check_goal_and_update(bike)
                 update_speed(bike)
-                if counter % 5 == 0:
-                    print("battery lower")
-                    # lower_battery(bike)
                 if bike.get("batterylevel") < 10:
                     set_bike_to_not_working(bike)
+            if counter % 5 == 0:
+                if bike['status'] == "working":
+                    for bInUse in bike_prio:
+                        check_goal_and_update(bInUse)
+                    check_goal_and_update(bike)
+                    update_speed(bike)
+                    if bike.get("batterylevel") < 10:
+                        set_bike_to_not_working(bike)
+            if counter % 10 == 0:
+                print("battery lower")
+                #         # lower_battery(bike)
         counter += 1
         if counter > 5:
             break
-        time.sleep(2)
 
 def get_all_active_bikes():
     """Function returns all active bikes in a city"""
