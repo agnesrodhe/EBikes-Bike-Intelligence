@@ -83,11 +83,12 @@ def main():
         active_bikes = get_all_active_bikes(city)
         for index, bike in enumerate(active_bikes):
             inUseBikes = requests.get("{0}/city/{1}/inuse".format(API, city))
-            for inUseB in inUseBikes.json():
-                check_goal_and_update(inUseB, city_longmax, city_longmin, city_latmax, city_latmin, 0.00001, 0.001)
-                update_speed(inUseB)
-                if bike.get("batterylevel") < 10:
-                    set_bike_to_not_working(inUseB)
+            if inUseBikes.status_code == 200:
+                for inUseB in inUseBikes.json():
+                    check_goal_and_update(inUseB, city_longmax, city_longmin, city_latmax, city_latmin, 0.00001, 0.001)
+                    update_speed(inUseB)
+                    if bike.get("batterylevel") < 10:
+                        set_bike_to_not_working(inUseB)
             if bike['status'] == "working":
                 check_goal_and_update(bike, city_longmax, city_longmin, city_latmax, city_latmin, 0.0001, 0.001)
                 update_speed(bike)
@@ -139,10 +140,7 @@ def check_goal_and_update(bike, city_longmax, city_longmin, city_latmax, city_la
 
 def update_speed(bike):
     """Function to update speed on bike"""
-    speed = 0
-    if bike.get("speed") == 0 or bike.get("speed") == None:
-        speed = 20
-    data = json.dumps({ "speed": speed })
+    data = json.dumps({ "speed": 20 })
     requests.put("{0}/{1}".format(API, bike['_id']), data=data, headers=HEADERS)
 
 def update_position(bike, movement_size):

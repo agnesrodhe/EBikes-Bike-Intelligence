@@ -35,4 +35,4 @@ COPY src/requirements.txt /src
 
 RUN pip3 install -r requirements.txt
 
-CMD [ "python3", "bike_simulation.py"]
+# CMD [ "python3", "bike_simulation.py"]
