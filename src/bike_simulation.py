@@ -7,47 +7,8 @@ import time
 import random
 import json
 
-
-
 API = "http://server:3002/v1/bikes"
 HEADERS = {'Content-Type': 'application/json'}
-# CITY = "637e2a5a22f175ffd136d0d7"
-# city_longmin = 15.36
-# city_longmax = 15.43
-# city_latmin = 60.46
-# city_latmax = 60.51
-# VERSION 1
-# Hämta aktiva cyklar
-# loopa igenom alla aktiva cyklar
-# fortsätt med cyklar med status working
-# om cykeln är inom stadens område fortsätt
-# om cykeln inte har ett mål - sätt ett mål annars fortsätt
-# uppdatera positionen
-# uppdatera hastighet
-# uppdatera batterinivån
-# kolla om cykelns batteri är för lågt => ändra status
-
-# VERSION 2
-# Hämta aktiva cyklar sortera ut de som inte är inom staden och sätt dom till status: outsideCity
-# loopa igenom alla aktiva cyklar
-# fortsätt med cyklar med status working
-# om cykeln inte har ett mål - sätt ett mål annars fortsätt
-# uppdatera positionen
-# uppdatera hastighet
-# uppdatera batterinivån
-# kolla om cykelns batteri är för lågt => ändra status
-
-# VERSION 3
-# Hämta aktiva cyklar
-# loopa igenom alla aktiva cyklar
-# fortsätt med cyklar med status working
-# uppdatera positionen
-#   om cykeln inte har ett mål - sätt ett mål
-#   om cykelns position är utanför staden byt mål
-#   annars uppdatera position mot målet
-# uppdatera hastighet
-# uppdatera batterinivån
-# kolla om cykelns batteri är för lågt => ändra status
 
 def main():
     """Function to start the simulation"""
@@ -79,6 +40,7 @@ def main():
         city_latmax = 55.73
     else:
         print("Not a valid city, start over with command: python3 bike_simulation.py")
+    print("Simulation is started")
     while True:
         active_bikes = get_all_active_bikes(city)
         for index, bike in enumerate(active_bikes):
@@ -94,11 +56,9 @@ def main():
                 update_speed(bike)
                 if bike.get("batterylevel") < 10:
                     set_bike_to_not_working(bike)
-            if counter % 10 == 0:
-                print("battery lower")
+            # if counter % 10 == 0:
+            #     print("battery lower")
         counter += 1
-        # if counter > 20:
-        #     break
 
 
 def get_all_active_bikes(city):
